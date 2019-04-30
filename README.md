@@ -104,6 +104,11 @@ MobileNetの学習済みモデルをダウンロード
 
 #### ラズパイカメラで撮影した画像の推論
 
+ラズパイカメラを有効にする(sudo raspi-config)  
+  → 5 Interfacing Options → P1 Camera
+
+	$ python main.py --mode 0 --trained_model ./models/mobilenet_v1_1.0_224
+
 ## 参考URL
 
 |title|URL|
