@@ -78,7 +78,7 @@ MobileNetの学習済みモデルをダウンロード
 	
 #### 画像ファイルを用いた推論
 
-	$ python model_tf.py --mode 0 --trained_model models/mobilenet_v1_1.0_224 --inference_csv ./inference.csv --readable_names_csv ./readable_names_for_imagenet_label.csv
+	$ python main.py --mode 1 --trained_model models/mobilenet_v1_1.0_224 --inference_csv ./inference.csv
 
 --inference_csvで推論する画像ファイルを指定
 
@@ -87,20 +87,6 @@ MobileNetの学習済みモデルをダウンロード
 	/home/pi/work/tensorflow/work/images/14720420_8830007ef2.jpg
 	/home/pi/work/tensorflow/work/images/20170612223613.jpg
 	/home/pi/work/tensorflow/work/images/main_232393_14718_detail.jpg
-
---readable_names_csvで推論クラスとクラス名をマッピング
-
-	$ head readable_names_for_imagenet_label.csv
-	1,"tench, Tinca tinca"
-	2,"goldfish, Carassius auratus"
-	3,"great white shark, white shark, man-eater, man-eating shark, Carcharodon carcharias"
-	4,"tiger shark, Galeocerdo cuvieri"
-	5,"hammerhead, hammerhead shark"
-	6,"electric ray, crampfish, numbfish, torpedo"
-	7,stingray
-	8,cock
-	9,hen
-	10,"ostrich, Struthio camelus"
 
 #### ラズパイカメラで撮影した画像の推論
 
