@@ -37,9 +37,6 @@ class DataLoader():
 	def __init__(self, data_csv, img_h=-1, img_w=-1):
 		# --- csvファイルをpandasで読み込む ---
 		self.df_data = pd.read_csv(data_csv)
-#		print(self.df_data)
-#		print(self.df_data.loc[:'image file'])
-#		print(self.df_data.columns)
 
 		# --- その他のパラメータ取り込み ---
 		self.img_h = img_h
@@ -58,7 +55,7 @@ class DataLoader():
 
 		if ((self.img_h > 0) and (self.img_w > 0)):
 			img = cv2.resize(img, (self.img_h, self.img_w))
-			cv2.imwrite('./debug_resize.png', img)
+#			cv2.imwrite('./debug_resize.png', img)
 		images = np.array([img])
 		for _data in data[idx:]:
 			img = cv2.imread(_data[0])

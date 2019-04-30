@@ -8,14 +8,7 @@
 #---------------------------------
 # モジュールのインポート
 #---------------------------------
-import os
-import sys
-import argparse
-import numpy as np
-import pandas as pd
 import tensorflow as tf
-from collections import OrderedDict
-from data_loader import DataLoader
 
 #---------------------------------
 # 定数定義
@@ -54,6 +47,15 @@ class TensorFlowModel():
 # メイン処理
 #---------------------------------
 if __name__ == '__main__':
+	# --- import module ---
+	import sys
+	import argparse
+	import numpy as np
+	import pandas as pd
+	from collections import OrderedDict
+	from data_loader import DataLoader
+
+	# --- local functions ---
 	"""
 	  関数名: _arg_parser
 	  説明：引数を解析して値を取得する
