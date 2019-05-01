@@ -48,6 +48,11 @@ https://forest.watch.impress.co.jp/docs/review/1067836.html
 仮想環境(virtualenv)を構築して，TensorFlowをインストールする．  
 https://www.tensorflow.org/install/pip
 
+公式のpipパッケージは，Raspberry PiでTensorFlow Lite実行時にundefined symbolエラーが発生する為，下記のものを使用する
+https://github.com/PINTO0309/Tensorflow-bin
+
+※公式のpipパッケージはundefined symbolエラーが発生，PINTO0309のpipパッケージはckptのrestoreが返ってこないことがある
+
 	$ sudo apt-get install python3-dev python3-pip
 	$ sudo apt-get install libatlas-base-dev
 	$ sudo pip3 install -U virtualenv
@@ -55,11 +60,12 @@ https://www.tensorflow.org/install/pip
 	$ source ./tensorflow/bin/activate
 	(tensorflow) $ pip install --upgrade pip
 	(tensorflow) $ pip list
-	(tensorflow) $ pip install --upgrade tensorflow
+	(tensorflow) $ git clone https://github.com/PINTO0309/Tensorflow-bin
+	(tensorflow) $ pip install tensorflow-1.13.1-cp35-cp35m-linux_armv7l.whl
 	(tensorflow) $ python -c "import tensorflow as tf; tf.enable_eager_execution(); print(tf.reduce_sum(tf.random_normal([1000, 1000])))"   # Verify the install
 	(tensorflow) $ deactivate
 
-### MobileNetの実行
+### MobileNetの実行(TensorFlow)
 
 画像を処理するのでOpenCVをインストールする  
 
@@ -95,6 +101,9 @@ MobileNetの学習済みモデルをダウンロード
 
 	$ python main.py --mode 0 --trained_model ./models/mobilenet_v1_1.0_224
 
+### MobileNetの実行(TensorFlow Lite)
+
+
 ## 参考URL
 
 |title|URL|
@@ -106,6 +115,8 @@ MobileNetの学習済みモデルをダウンロード
 |TensorFlow install|https://www.tensorflow.org/install/pip|
 |tensorflow_data_extractor - mismatch between the current graph and the graph from the checkpoint . Cannot assign a device for operation 'parallel_read/filenames/Greater'|https://github.com/ARM-software/ComputeLibrary/issues/504|
 |ラズパイ3にOpenCV3/4を簡単に導入|https://qiita.com/mt08/items/e8e8e728cf106ac83218|
+|Build TensorFlow Lite for Raspberry Pi|https://www.tensorflow.org/lite/guide/build_rpi#native_compiling|
+
 
 ## その他
 
