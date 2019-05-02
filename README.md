@@ -45,25 +45,36 @@ https://forest.watch.impress.co.jp/docs/review/1067836.html
 
 ### TensorFlowインストール
 
-仮想環境(virtualenv)を構築して，TensorFlowをインストールする．  
+公式のpipパッケージはtfliteファイル読み込み時にundefined symbolエラーが発生し，PINTO0309のpipパッケージはckptのrestoreが返ってこないことがあるので，TensorFlowとTensorFlow Liteで仮想環境を分ける．  
+
+TensorFlow：  
 https://www.tensorflow.org/install/pip
 
-公式のpipパッケージは，Raspberry PiでTensorFlow Lite実行時にundefined symbolエラーが発生する為，下記のものを使用する
+TensorFlow Lite:  
 https://github.com/PINTO0309/Tensorflow-bin
-
-※公式のpipパッケージはundefined symbolエラーが発生，PINTO0309のpipパッケージはckptのrestoreが返ってこないことがある
 
 	$ sudo apt-get install python3-dev python3-pip
 	$ sudo apt-get install libatlas-base-dev
 	$ sudo pip3 install -U virtualenv
+	
+	#--- TensorFlow ---
 	$ virtualenv --system-site-packages -p python3 ./tensorflow
 	$ source ./tensorflow/bin/activate
 	(tensorflow) $ pip install --upgrade pip
 	(tensorflow) $ pip list
-	(tensorflow) $ git clone https://github.com/PINTO0309/Tensorflow-bin
-	(tensorflow) $ pip install tensorflow-1.13.1-cp35-cp35m-linux_armv7l.whl
+	(tensorflow) $ pip install --upgrade tensorflow
 	(tensorflow) $ python -c "import tensorflow as tf; tf.enable_eager_execution(); print(tf.reduce_sum(tf.random_normal([1000, 1000])))"   # Verify the install
 	(tensorflow) $ deactivate
+	
+	#--- TensorFlow Lite ---
+	$ virtualenv --system-site-packages -p python3 ./tensorflow-lite
+	$ source ./tensorflow-lite/bin/activate
+	(tensorflow-lite) $ pip install --upgrade pip
+	(tensorflow-lite) $ pip list
+	(tensorflow-lite) $ git clone https://github.com/PINTO0309/Tensorflow-bin
+	(tensorflow-lite) $ pip install tensorflow-1.13.1-cp35-cp35m-linux_armv7l.whl
+	(tensorflow-lite) $ python -c "import tensorflow as tf; tf.enable_eager_execution(); print(tf.reduce_sum(tf.random_normal([1000, 1000])))"   # Verify the install
+	(tensorflow-lite) $ deactivate
 
 ### MobileNetの実行(TensorFlow)
 
