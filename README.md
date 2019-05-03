@@ -53,8 +53,7 @@ https://www.tensorflow.org/install/pip
 TensorFlow Lite:  
 https://github.com/PINTO0309/Tensorflow-bin
 
-	$ sudo apt-get install python3-dev python3-pip
-	$ sudo apt-get install libatlas-base-dev
+	$ sudo apt-get install python3-dev python3-pip libatlas-base-dev
 	$ sudo pip3 install -U virtualenv
 	
 	#--- TensorFlow ---
@@ -75,6 +74,9 @@ https://github.com/PINTO0309/Tensorflow-bin
 	(tensorflow-lite) $ pip install tensorflow-1.13.1-cp35-cp35m-linux_armv7l.whl
 	(tensorflow-lite) $ python -c "import tensorflow as tf; tf.enable_eager_execution(); print(tf.reduce_sum(tf.random_normal([1000, 1000])))"   # Verify the install
 	(tensorflow-lite) $ deactivate
+	
+	#--- その他，実行に必要なモジュールをインストール
+	(tensorflow / tensorflow-lite) pip install pandas
 
 ### MobileNetの実行(TensorFlow)
 
@@ -110,6 +112,7 @@ MobileNetの学習済みモデルをダウンロード
 ラズパイカメラを有効にする(sudo raspi-config)  
   → 5 Interfacing Options → P1 Camera
 
+	$ sudo modprobe bcm2835-v4l2  <--ラズパイカメラのマウント
 	$ python main.py --mode 0 --trained_model ./models/mobilenet_v1_1.0_224
 
 ### MobileNetの実行(TensorFlow Lite)
