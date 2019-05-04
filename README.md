@@ -115,6 +115,8 @@ MobileNetの学習済みモデルをダウンロード
 	$ sudo modprobe bcm2835-v4l2  <--ラズパイカメラのマウント
 	$ python main.py --mode 0 --trained_model ./models/mobilenet_v1_1.0_224
 
+設定を維持する場合は，/etc/modules内にbcm2835-v4l2を書いておく
+
 ### MobileNetの実行(TensorFlow Lite)
 
 
