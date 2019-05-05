@@ -119,6 +119,7 @@ MobileNetの学習済みモデルをダウンロード
 
 ### MobileNetの実行(TensorFlow Lite)
 
+	python main.py --mode 0 --trained_model ./models/mobilenet_v1_1.0_224/mobilenet_v1_1.0_224.tflite --flag_tflite
 
 ## 参考URL
 
