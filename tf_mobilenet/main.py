@@ -31,6 +31,7 @@ def ArgParser():
 	# --- 引数を追加 ---
 	parser.add_argument('--mode', dest='mode', type=int, default=None, help='動作モード(0: カメラモード, 1: ファイル読み込みモード)', required=True)
 	parser.add_argument('--trained_model', dest='trained_model', type=str, default=None, help='学習済みモデル(例: mobilenet_v1_1.0_224)', required=True)
+	parser.add_argument('--flag_tflite', dest='flag_tflite', action='store_true', default=False, help='Tensorflow Liteモデルを読み込む場合にセット', required=False)
 	parser.add_argument('--inference_csv', dest='inference_csv', type=str, default=None, help='推論データのリスト\n[csv構造]\n  image path', required=False)
 
 	args = parser.parse_args()
@@ -42,7 +43,7 @@ def main():
 	args = ArgParser()
 
 	# --- TensorFlowモデルオブジェクト構築 ---
-	model = TensorFlowModel()
+	model = TensorFlowModel(args.flag_tflite)
 	model.load_model(args.trained_model)
 
 	# --- モードに応じて処理 ---
@@ -65,7 +66,7 @@ def main():
 				break
 	
 			# --- inference image ---
-			img = np.array([(cv2.resize(frame, (224, 224)) / 128) - 1.0])
+			img = np.array([(cv2.resize(frame, (224, 224)) / 128) - 1.0], dtype=np.float32)
 			start = time.time()
 			predict = model.inference(img)
 			end = time.time()
@@ -83,7 +84,7 @@ def main():
 		images, _ = dl.load_data()
 
 		# --- 推論 ---
-		images = (images / 128) - 1.0
+		images = np.array((images / 128) - 1.0, dtype=np.float32)
 		predict = model.inference(images)
 		predict_class = np.argmax(predict, axis=1)
 

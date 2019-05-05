@@ -23,23 +23,48 @@ import tensorflow as tf
 #---------------------------------
 class TensorFlowModel():
 	# --- コンストラクタ ---
-	def __init__(self):
-		self.sess = tf.Session()
+	def __init__(self, flag_tflite=False):
+		self.flag_tflite = flag_tflite
+		if not self.flag_tflite:
+			# TensorFlowモデルを読み込む場合の処理
+			self.sess = tf.Session()
+		else:
+			# TensorFlow Liteモデルを読み込む場合の処理
+			self.sess = tf.Session()
+			pass
+
 		return
 
 	# --- 学習済みモデルの読み込み ---
 	def load_model(self, trained_model):
-		saver = tf.train.import_meta_graph(trained_model + '.ckpt.meta', clear_devices=True)
-		saver.restore(self.sess, trained_model + '.ckpt')
-		gd = tf.GraphDef.FromString(open(trained_model + '_frozen.pb', 'rb').read())
-		self.x, self.y = tf.import_graph_def(gd, return_elements=['input:0', 'MobilenetV1/Predictions/Reshape_1:0'])	# [T.B.D]
+		if not self.flag_tflite:
+			# TensorFlowモデルを読み込む場合の処理
+			saver = tf.train.import_meta_graph(trained_model + '.ckpt.meta', clear_devices=True)
+			saver.restore(self.sess, trained_model + '.ckpt')
+			gd = tf.GraphDef.FromString(open(trained_model + '_frozen.pb', 'rb').read())
+			self.x, self.y = tf.import_graph_def(gd, return_elements=['input:0', 'MobilenetV1/Predictions/Reshape_1:0'])	# [T.B.D]
+		else:
+			# TensorFlow Liteモデルを読み込む場合の処理
+			self.interpreter = tf.lite.Interpreter(model_path=trained_model)
+			self.interpreter.allocate_tensors()
+			self.input_details = self.interpreter.get_input_details()
+			self.output_details = self.interpreter.get_output_details()
+
 		print('[INFO] model is restored')
 
 		return
 
 	# --- 推論 ---
 	def inference(self, data):
-		prediction = self.sess.run(self.y, feed_dict={self.x: data})
+		if not self.flag_tflite:
+			# TensorFlowモデルを読み込む場合の処理
+			prediction = self.sess.run(self.y, feed_dict={self.x: data})
+		else:
+			# TensorFlow Liteモデルを読み込む場合の処理
+			input_shape = self.input_details[0]['shape']
+			self.interpreter.set_tensor(self.input_details[0]['index'], data)
+			self.interpreter.invoke()
+			prediction = self.interpreter.get_tensor(self.output_details[0]['index'])
 
 		return prediction
 
