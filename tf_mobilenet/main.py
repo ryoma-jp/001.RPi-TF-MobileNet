@@ -33,6 +33,8 @@ def ArgParser():
 	parser.add_argument('--trained_model', dest='trained_model', type=str, default=None, help='学習済みモデル(例: mobilenet_v1_1.0_224)', required=True)
 	parser.add_argument('--flag_tflite', dest='flag_tflite', action='store_true', default=False, help='Tensorflow Liteモデルを読み込む場合にセット', required=False)
 	parser.add_argument('--inference_csv', dest='inference_csv', type=str, default=None, help='推論データのリスト\n[csv構造]\n  image path', required=False)
+	parser.add_argument('--ops', dest='ops', default=None, type=str, help='計算グラフのoperationを保存するファイル', required=False)
+	parser.add_argument('--weights', dest='weights', default=None, type=str, help='重みパラメータを保存するファイル', required=False)
 
 	args = parser.parse_args()
 
@@ -45,6 +47,14 @@ def main():
 	# --- TensorFlowモデルオブジェクト構築 ---
 	model = TensorFlowModel(args.flag_tflite)
 	model.load_model(args.trained_model)
+
+	# --- 計算グラフのoperationを保存 ---
+	if (args.ops is not None):
+		model.get_ops(args.ops)
+
+	# --- 重みを保存 ---
+	if (args.weights is not None):
+		model.get_weights(args.weights)
 
 	# --- モードに応じて処理 ---
 	od_class_name = OrderedDict(pd.read_csv(CLASS_NAMES, header=None).values)

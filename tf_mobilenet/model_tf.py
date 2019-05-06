@@ -68,6 +68,26 @@ class TensorFlowModel():
 
 		return prediction
 
+	# --- 計算グラフのoperationを取得 ---
+	def get_ops(self, outfile):
+		graph = tf.get_default_graph()
+		all_ops = graph.get_operations()
+		
+		with open(outfile, 'w') as f:
+			for _op in all_ops:
+				f.write('{}'.format(_op))
+
+		return
+
+	# --- 重み取得 ---
+	def get_weights(self, outfile):
+		weights = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)
+
+		with open(outfile, 'w') as f:
+			f.write('{}'.format(weights))
+
+		return
+
 #---------------------------------
 # メイン処理
 #---------------------------------
