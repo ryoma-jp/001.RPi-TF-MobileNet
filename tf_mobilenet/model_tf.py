@@ -9,6 +9,8 @@
 # モジュールのインポート
 #---------------------------------
 import tensorflow as tf
+import numpy as np
+import tqdm
 
 #---------------------------------
 # 定数定義
@@ -83,8 +85,12 @@ class TensorFlowModel():
 	def get_weights(self, outfile):
 		weights = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)
 
+		np_print_th = np.get_printoptions()['threshold']
+		np.set_printoptions(threshold=np.inf)
 		with open(outfile, 'w') as f:
-			f.write('{}'.format(weights))
+			for _weight in tqdm.tqdm(weights):
+				f.write('{}\n{}\n\n'.format(_weight, self.sess.run(_weight)))
+		np.set_printoptions(threshold=np_print_th)
 
 		return
 
